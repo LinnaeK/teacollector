@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Tea List</h1>
+
+{% for tea in teas %}
+<div class = "card">
+<a href="{% url 'detail' tea.id %}">
+    <div class = "card-content">
+        <span class = "card-title">{{ tea.name }}</span>
+        <p>{{ tea.category }}</p>
+        <p>{{ tea.water_temp }}</p>
+        <p>{{ tea.steeping_time }}</p>
+        <p>{{ tea.notes }}</p>
+    </div>
+    </a>
+</div>
+{% endfor %}
+
+{% endblock %}
