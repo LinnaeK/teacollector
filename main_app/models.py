@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from datetime import date 
 
 DRINKS = (
     ('M', 'Morning'),
@@ -10,22 +11,23 @@ DRINKS = (
 class Store(models.Model):
     name = models.CharField(max_length=200)
     website = models.CharField(max_length=200)
-    address = models.CharField(max_length=200)
-    city = models.CharField(max_length = 100)
-    phone = models.IntegerField()
+    address = models.CharField(default = "", max_length=200)
+    city = models.CharField(default = "", max_length = 100)
+    phone = models.CharField(max_length=14)
 
     def __str__(self):
         return self.name
     
     def get_absolute_url(self):
-        return reverse('stores_detail', kwargs={'pk': self.id})
+        return reverse('store_detail', kwargs={'pk': self.id})
 
 class Tea(models.Model):
     name = models.CharField(max_length=100)
     category = models.CharField(max_length=100)
     water_temp = models.IntegerField()
     steeping_time = models.IntegerField()
-    notes = models.CharField(max_length=500)
+    notes = models.CharField(max_length=200)
+    stores = models.ManyToManyField(Store)
     
     def __str__(self):
         return self.name
@@ -38,15 +40,19 @@ class Tea(models.Model):
 
 class Drinking(models.Model):
     date = models.DateField('drinking date')
-    drink = models.CharField(
+    time = models.CharField(
         max_length=1, 
         choices=DRINKS,
         default=DRINKS[0][0]
     )
     tea = models.ForeignKey(Tea, on_delete=models.CASCADE)
+    feeling = models.CharField(default = "good", max_length=200)
 
     def __str__(self):
-        return f"{self.get_drink_display()} on {self.date}"
+        return f"{self.get_time_display()} on {self.date}"
+
+    class Meta:
+        ordering = ['-date']
 
 class Meta:
     ordering = ['-date']

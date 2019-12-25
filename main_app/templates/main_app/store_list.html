@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Store List</h1>
+{% for store in object_list %}
+<div class = "card">
+    <a href="{% url 'store_detail' store.id %}">
+        <span class="card-title">{{ store.name }}</span>
+        <p>{{ store.website }}</p>
+        <p>{{ store.address }} </p>    
+        <p>{{ store.city }} </p>
+        <p>{{ store.phone }} </p>
+        <p>{{ store.price }}</p>
+    </a>
+</div>
+{% endfor %}
+{% endblock %}
