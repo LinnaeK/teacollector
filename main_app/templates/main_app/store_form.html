@@ -11,6 +11,10 @@
         <table>
         {{ form.as_table }}
         </table>
-        <input type="submit" class="btn" value="Add Store">
+        {%if object %}
+            <input type="submit" class="btn" value="Update Store">
+        {% else %}
+            <input type="submit" class="btn" value="Add Store">
+        {% endif %}
     </form>
 {% endblock %}
